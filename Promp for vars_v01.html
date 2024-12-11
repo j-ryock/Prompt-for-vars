@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt for vars</title>
+</head>
+<body>
+  <button id="launchEmail">Send Email</button>
+  <script>
+    function sendEmail() {
+      const recipientName = prompt("Enter the recipient's name:");
+      if (recipientName === null || recipientName.trim() === '') {
+        alert("Recipient's name is required. Email not sent.");
+        reutrn;
+      }
+
+      const recipientEmail = prompt("Enter the recipient's email address:");
+      if (recipientEmail === null || recipientEmail.trim() === '' || !validateEmail(recipientEmail)) {
+        alert('Valid email addres is required. Email not sent.');
+        return;
+      }
+
+      const emailBody = prompt('Enter the message for your email body:');
+      if (emailBody === null || emailBody.trim() === '') {
+        alert('No message entered. Email not sent.');
+        return;
+      }
+
+      const subject = `Message for ${recipientName}`;
+      const body = encodeURIComponent(`Hi ${recipientName},\n\n${emailBody}`);
+      const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${body}`;
+
+      window.location.href = mailtoLink;
+    }
+
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    document.querySelector('#launchEmail').addEventListener('click', sendEmail);
+  </script>
+</body>
+</html>
